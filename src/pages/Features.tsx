@@ -103,7 +103,6 @@ const Features = () => {
           ))}
         </div>
 
-        {/* Technical Specifications */}
         <div className="mt-16">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
             Technical Specifications
@@ -158,11 +157,11 @@ const Features = () => {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">RAM Usage:</span>
-                    <span className="font-medium">< 200MB</span>
+                    <span className="font-medium">&lt; 200MB</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">CPU Usage:</span>
-                    <span className="font-medium">< 15%</span>
+                    <span className="font-medium">&lt; 15%</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Camera:</span>
