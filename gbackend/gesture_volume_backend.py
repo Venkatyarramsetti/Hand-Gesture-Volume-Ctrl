@@ -5,18 +5,9 @@ import numpy as np
 import asyncio
 import websockets
 import json
-from ctypes import cast, POINTER
-from comtypes import CLSCTX_ALL
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.7)
-
-# Setup audio control
-audio_device = AudioUtilities.GetSpeakers()
-audio_interface = audio_device.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-volume_controller = cast(audio_interface, POINTER(IAudioEndpointVolume))
-volume_min, volume_max = volume_controller.GetVolumeRange()[:2]
 
 async def volume_websocket(websocket):
     print(f"New client connected from {websocket.remote_address}")
@@ -45,15 +36,14 @@ async def volume_websocket(websocket):
 
                 distance = hypot(x2 - x1, y2 - y1)
 
-                # Map distance to volume range
-                mapped_volume = np.interp(distance, [30, 250], [volume_min, volume_max])
+                # Simulated volume percentage based on distance
                 volume_percentage = np.interp(distance, [30, 250], [0, 100])
-
-                volume_controller.SetMasterVolumeLevel(mapped_volume, None)
+                volume_percentage = int(np.clip(volume_percentage, 0, 100))
 
                 try:
-                    data = {'volume': int(volume_percentage)}
+                    data = {'volume': volume_percentage}
                     await websocket.send(json.dumps(data))
+                    print(f"Sent volume: {volume_percentage}%")
                 except websockets.exceptions.ConnectionClosed:
                     print("Client disconnected.")
                     break
@@ -65,8 +55,8 @@ async def volume_websocket(websocket):
         cap.release()
 
 async def main():
-    async with websockets.serve(volume_websocket, "localhost", 8765):
-        print("WebSocket server started at ws://localhost:8765")
+    async with websockets.serve(volume_websocket, "0.0.0.0", 8765):
+        print("WebSocket server started at ws://0.0.0.0:8765")
         await asyncio.Future()  # run forever
 
 if __name__ == '__main__':
