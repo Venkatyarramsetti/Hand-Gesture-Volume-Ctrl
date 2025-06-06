@@ -1,12 +1,11 @@
-
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Hand, Volume2 } from "lucide-react";
-
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate(); // Added navigate
 
   const navItems = [
     { path: "/", label: "Home" },
@@ -44,7 +43,10 @@ const Navigation = () => {
                 {item.label}
               </Link>
             ))}
-            <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+            <Button
+              onClick={() => navigate("/gesture-control")} // Replace "#" with your desired route, like "/try-now"
+              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+            >
               <Volume2 className="h-4 w-4 mr-2" />
               Try Now
             </Button>
