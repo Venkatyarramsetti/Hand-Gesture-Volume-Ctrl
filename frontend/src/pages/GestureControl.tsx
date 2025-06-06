@@ -54,11 +54,7 @@ const GestureControl = () => {
         setIsRunning(false);
         console.log("WebSocket connection closed");
 
-        // Optional: auto-reconnect after 3 seconds
-        setTimeout(() => {
-          console.log("Attempting to reconnect...");
-          connectWebSocket();
-        }, 3000);
+        // *** Auto-reconnect removed here ***
       };
 
       ws.onerror = (error) => {
@@ -115,7 +111,7 @@ const GestureControl = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
       <Navigation />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -162,7 +158,7 @@ const GestureControl = () => {
               <div className="space-y-3">
                 <div className="flex gap-3">
                   {!isConnected ? (
-                    <Button 
+                    <Button
                       onClick={connectWebSocket}
                       className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
                     >
@@ -170,7 +166,7 @@ const GestureControl = () => {
                       Connect & Start
                     </Button>
                   ) : (
-                    <Button 
+                    <Button
                       onClick={disconnect}
                       variant="destructive"
                       className="flex-1"
