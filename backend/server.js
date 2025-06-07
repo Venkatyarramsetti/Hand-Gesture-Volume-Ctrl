@@ -8,8 +8,7 @@ app.use(express.json());
 app.use(cors({
   origin: [
     "http://localhost:3000", 
-    "http://localhost:8080", 
-    "https://volumectrlbyhand.vercel.app"
+    "http://localhost:8080"
   ],
 }));
 

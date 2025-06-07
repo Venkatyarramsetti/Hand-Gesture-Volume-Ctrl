@@ -90,7 +90,7 @@ const Footer = () => {
 
                 const payload = {
                   email: formData.get("email"),
-                  message: formData.get("message"),
+                  query: formData.get("message"), // renamed 'message' to 'query' to match backend
                 };
 
                 setStatusMessage("Sending query...");
@@ -99,13 +99,11 @@ const Footer = () => {
                 try {
                   const API_URL = import.meta.env.VITE_API_URL;
 
-                  const res = await fetch(`${API_URL}/api/send-query`, {
+                  const res = await fetch(`${API_URL}/send-query`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload),
                   });
-
-
 
                   if (res.ok) {
                     setStatusMessage("✅ Query sent successfully!");
@@ -146,13 +144,12 @@ const Footer = () => {
               {/* Status message below button */}
               {statusMessage && (
                 <p
-                  className={`mt-2 text-sm ${
-                    statusType === "success"
+                  className={`mt-2 text-sm ${statusType === "success"
                       ? "text-green-400"
                       : statusType === "error"
-                      ? "text-red-500"
-                      : "text-gray-400"
-                  }`}
+                        ? "text-red-500"
+                        : "text-gray-400"
+                    }`}
                   role="alert"
                   aria-live="polite"
                 >
@@ -160,6 +157,7 @@ const Footer = () => {
                 </p>
               )}
             </form>
+
           </div>
         </div>
 
