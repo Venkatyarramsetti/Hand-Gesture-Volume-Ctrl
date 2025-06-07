@@ -97,11 +97,14 @@ const Footer = () => {
                 setStatusType("info");
 
                 try {
-                  const res = await fetch(`${process.env.REACT_APP_API_URL}/api/send-query`, {
+                  const API_URL = import.meta.env.VITE_API_URL;
+
+                  const res = await fetch(`${API_URL}/api/send-query`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload),
                   });
+
 
 
                   if (res.ok) {
