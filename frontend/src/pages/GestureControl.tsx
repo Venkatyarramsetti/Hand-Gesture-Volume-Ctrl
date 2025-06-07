@@ -22,9 +22,18 @@ const GestureControl = () => {
     }
 
     try {
-      const ws = new WebSocket('ws://localhost:8765');
-      wsRef.current = ws;
+      // Use secure WebSocket URL with wss:// for ngrok HTTPS URL
+      const WS_URL =
+        process.env.NEXT_PUBLIC_WS_URL ||
+        'ws://localhost:8765';
 
+      // If the URL starts with https://, convert it to wss:// for WebSocket
+      const normalizedWSUrl = WS_URL.startsWith('https://')
+        ? WS_URL.replace('https://', 'wss://')
+        : WS_URL;
+
+      const ws = new WebSocket(normalizedWSUrl);
+      wsRef.current = ws;
       ws.onopen = () => {
         setIsConnected(true);
         setConnectionStatus("Connected");
@@ -35,6 +44,8 @@ const GestureControl = () => {
         });
         console.log("WebSocket connected successfully");
       };
+
+
 
       ws.onmessage = (event) => {
         try {
