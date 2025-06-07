@@ -97,11 +97,12 @@ const Footer = () => {
                 setStatusType("info");
 
                 try {
-                  const res = await fetch("http://localhost:5000/api/send-query", {
+                  const res = await fetch(`${process.env.REACT_APP_API_URL}/api/send-query`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload),
                   });
+
 
                   if (res.ok) {
                     setStatusMessage("✅ Query sent successfully!");
