@@ -22,18 +22,12 @@ const GestureControl = () => {
     }
 
     try {
-      // Use secure WebSocket URL with wss:// for ngrok HTTPS URL
-      const WS_URL =
-        process.env.NEXT_PUBLIC_WS_URL ||
-        'ws://localhost:8765';
+      // Directly use the env variable with wss:// included
+      const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8765';
 
-      // If the URL starts with https://, convert it to wss:// for WebSocket
-      const normalizedWSUrl = WS_URL.startsWith('https://')
-        ? WS_URL.replace('https://', 'wss://')
-        : WS_URL;
-
-      const ws = new WebSocket(normalizedWSUrl);
+      const ws = new WebSocket(WS_URL);
       wsRef.current = ws;
+
       ws.onopen = () => {
         setIsConnected(true);
         setConnectionStatus("Connected");
@@ -44,8 +38,6 @@ const GestureControl = () => {
         });
         console.log("WebSocket connected successfully");
       };
-
-
 
       ws.onmessage = (event) => {
         try {
@@ -64,8 +56,6 @@ const GestureControl = () => {
         setConnectionStatus("Disconnected");
         setIsRunning(false);
         console.log("WebSocket connection closed");
-
-        // *** Auto-reconnect removed here ***
       };
 
       ws.onerror = (error) => {
@@ -77,7 +67,6 @@ const GestureControl = () => {
           variant: "destructive",
         });
       };
-
     } catch (error) {
       console.error("Failed to create WebSocket connection:", error);
       toast({
